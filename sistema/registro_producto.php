@@ -12,12 +12,13 @@ if (!empty($_POST))
     
 
     $alert = '';
-    if (empty($_POST['producto']) || empty($_POST['precio']) || $_POST['precio'] <=0 ||empty($_POST['cantidad']) ||$_POST['cantidad'] <=0 ) {
+    if (empty($_POST['producto']) || empty($_POST['categoria']) || empty($_POST['precio']) || $_POST['precio'] <=0 ||empty($_POST['cantidad']) ||$_POST['cantidad'] <=0 ) {
         $alert = '<p class="msg_error">Todos los campos son obligatorios.</p>';
-    } else {
+    }else {
 
 
         $producto   = $_POST['producto'];
+        $categoria  = $_POST['categoria'];
         $precio     = $_POST['precio'];
         $cantidad   = $_POST['cantidad'];
         $usuario_id = $_SESSION['idUser'];
@@ -29,6 +30,7 @@ if (!empty($_POST))
 
         $imgProducto = 'img_producto.png';
 
+        
         if($nombre_foto != '')
         {
             $destino       = 'img/uploads/';
@@ -37,8 +39,14 @@ if (!empty($_POST))
             $src           = $destino.$imgProducto;
         }
 
-        $query_insert = mysqli_query($conection, "INSERT INTO producto(descripcion, precio, existencia, usuario_id, foto)
-                VALUES('$producto', '$precio', '$cantidad', '$usuario_id', '$imgProducto')");
+        $query = mysqli_query($conection, "SELECT * FROM producto WHERE descripcion = '$producto'");
+        $result = mysqli_fetch_array($query);
+        if ($result > 0) {
+            $alert = '<p class="msg_error">El producto ya existe.</p>';
+        } else{
+
+        $query_insert = mysqli_query($conection, "INSERT INTO producto(descripcion, categoria, precio, existencia, usuario_id, foto)
+                VALUES('$producto', '$categoria', '$precio', '$cantidad', '$usuario_id', '$imgProducto')");
 
             if ($query_insert) {
                 if($nombre_foto != ''){
@@ -49,6 +57,7 @@ if (!empty($_POST))
             } else {
                 $alert = '<p class="msg_error">Error al guardar el producto.</p>';
             }
+        }
         }
     }
 
@@ -76,6 +85,29 @@ if (!empty($_POST))
             <form action="" method="POST" enctype="multipart/form-data">
                 <label for="producto">Producto</label>
                 <input type="text" name="producto" id="producto" placeholder="Nombre del producto">
+                <label for="categoria">Tipo de Categoria</label>
+                <?php
+
+                $query_categoria = mysqli_query($conection, "SELECT * FROM categoria");
+                mysqli_close($conection);
+                $result_categoria = mysqli_num_rows($query_categoria);
+                
+                ?>
+
+                <select name="categoria" id="categoria">
+                    <?php
+                    if ($result_categoria > 0) {
+                        while ($categoria = mysqli_fetch_array($query_categoria)) { 
+                    ?>
+                            <option value="<?php echo $categoria["idcategoria"]; ?>"><?php echo $categoria["categoria"] ?></option>
+                    <?php
+
+                            # code...
+                        }
+                    }
+                    ?>
+                </select>
+
                 <label for="precio">Precio</label>
                 <input type="number" name="precio" id="precio" placeholder="Precio del producto">
                 <label for="cantidad">Cantidad</label>

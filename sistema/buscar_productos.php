@@ -19,17 +19,32 @@ include "../conexion.php";
     ?>
 
     <section id="container">
+        <?php 
+        $busqueda = '';
+        if(empty($_REQUEST['busqueda']))
+        {
+            header("location: lista_producto.php");
+        }
+        if(!empty($_REQUEST['busqueda'])){
+            $busqueda = strtolower($_REQUEST['busqueda']);
+            $where = "(p.codproducto LIKE '%$busqueda%' OR p.descripcion LIKE '%$busqueda%' OR c.categoria LIKE '%$busqueda%') AND estatus=1";
+            $buscar = 'busqueda='.$busqueda;
+        }
+
+
+        
+        ?>
 
         <div class="lista_usuario">
             <div class="usuario">
-                <h1><i class="fa-sharp fa-solid fa-cubes-stacked"></i> Lista de Productos</h1>
-                <a href="registro_producto.php" class="btn_new btnNewProducto"><i class="fa-solid fa-plus"></i> Crear producto</a>
+                <h1>Lista de Productos</h1>
+                <a href="registro_producto.php" class="btn_new btnNewProducto"><i class="fa-solid fa-plus"></i> Registrar producto</a>
 
             </div>
 
             <div class="Buscar">
                 <form action="buscar_productos.php" method="get" class="form_search">
-                    <input type="text" name="busqueda" id="busqueda" placeholder="Buscar">
+                    <input type="text" name="busqueda" id="busqueda" placeholder="Buscar" value="<?php echo $busqueda; ?>">
                     <input type="submit" value="Buscar" class="btn_search">
                 </form>
 
@@ -57,7 +72,9 @@ include "../conexion.php";
                 <?php
 
                 //paginator
-                $sql_register    = mysqli_query($conection, "SELECT count(*) AS total_registro FROM producto WHERE estatus= 1");
+                $sql_register    = mysqli_query($conection, "SELECT count(*) AS total_registro FROM producto p
+                                                                    INNER JOIN categoria c
+                                                                    ON p.categoria = c.idcategoria WHERE $where");
                 $result_register = mysqli_fetch_array($sql_register);
                 $total_registro  = $result_register['total_registro'];
 
@@ -76,7 +93,9 @@ include "../conexion.php";
                 FROM producto p
                 INNER JOIN categoria c
                 ON p.categoria = c.idcategoria
-                WHERE p.estatus=1 ORDER BY p.codproducto ASC LIMIT $desde, $por_pagina
+                WHERE 
+               (p.codproducto LIKE '%$busqueda%' OR p.descripcion LIKE '%$busqueda%' OR c.categoria LIKE '%$busqueda%')
+                                                    AND p.estatus=1 ORDER BY codproducto ASC LIMIT $desde, $por_pagina
                 ");
 
                 mysqli_close($conection);
@@ -103,7 +122,7 @@ include "../conexion.php";
                             <td><?php echo $data["categoria"]; ?></td>
                             <?php
                             if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
-                            
+                               
                                 <td>
 
                                     <a class="link_add add_product" product="<?php echo $data["codproducto"]; ?>" href="#"><i class="fa-solid fa-plus"></i> Agregar</a>
@@ -117,7 +136,6 @@ include "../conexion.php";
                             <?php
                             }
                             ?>
-                            
                         </tr>
 
                 <?php
@@ -137,9 +155,9 @@ include "../conexion.php";
 
                 ?>
 
-                    <li><a href="?pagina=<?php echo 1; ?>"><i class="fa-solid fa-backward-step"></i></a>
+                    <li><a href="?pagina=<?php echo 1; ?> &<?php echo $buscar; ?>"><i class="fa-solid fa-backward-step"></i></a>
                     </li>
-                    <li><a href="?pagina=<?php echo $pagina - 1; ?>"><i class="fa-solid fa-caret-left fa-lg"></i></a>
+                    <li><a href="?pagina=<?php echo $pagina - 1; ?> &<?php echo $buscar; ?>"><i class="fa-solid fa-caret-left fa-lg"></i></a>
                     </li>
                 <?php
                 }
@@ -150,7 +168,7 @@ include "../conexion.php";
                     if ($i == $pagina) {
                         echo '<li class="pageSelected">' . $i . '</li>';
                     } else {
-                        echo '<li><a href="?pagina=' . $i . '">' . $i . '</a></li>';
+                        echo '<li><a href="?pagina=' . $i .'&'.$buscar. '">' . $i . '</a></li>';
                     }
                 }
                 if ($pagina != $total_paginas) {
@@ -159,8 +177,8 @@ include "../conexion.php";
 
 
 
-                    <li><a href="?pagina=<?php echo $pagina + 1; ?>"><i class="fa-solid fa-caret-right fa-lg"></i></a></li>
-                    <li><a href="?pagina=<?php echo $total_paginas; ?>"><i class="fa-solid fa-forward-step"></i></a></li>
+                    <li><a href="?pagina=<?php echo $pagina + 1; ?> &<?php echo $buscar; ?>"><i class="fa-solid fa-caret-right fa-lg"></i></a></li>
+                    <li><a href="?pagina=<?php echo $total_paginas; ?> &<?php echo $buscar; ?>"><i class="fa-solid fa-forward-step"></i></a></li>
                 <?php
                 }
                 ?>

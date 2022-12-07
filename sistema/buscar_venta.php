@@ -1,6 +1,52 @@
 <?php
 session_start();
 include "../conexion.php";
+
+$busqueda = '';
+$fecha_de = '';
+$fecha_a = '';
+
+if (isset($_REQUEST['busqueda']) && $_REQUEST['busqueda'] == '') {
+    header("Location: ventas.php");
+}
+
+if (isset($_REQUEST['fecha_de']) || isset($_REQUEST['fecha_a'])) {
+    if ($_REQUEST['fecha_de'] == '' || $_REQUEST['fecha_a'] == '') {
+        header("Location: ventas.php");
+    }
+}
+
+
+if (!empty($_REQUEST['busqueda'])) {
+    if (!is_numeric($_REQUEST['busqueda'])) {
+        header('Location: ventas.php');
+    }
+    $busqueda = strtolower($_REQUEST['busqueda']);
+    $where = "nofactura = $busqueda";
+    $buscar = "busqueda = $busqueda";
+}
+if (!empty($_REQUEST['fecha_de']) && !empty($_REQUEST['fecha_a'])) {
+    $fecha_de = $_REQUEST['fecha_de'];
+    $fecha_a = $_REQUEST['fecha_a'];
+
+    $buscar = '';
+
+    if ($fecha_de > $fecha_a) {
+        header('Location: ventas.php');
+    } else if ($fecha_de == $fecha_a) {
+        $where = "fecha LIKE '$fecha_de%'";
+        $buscar = "fecha_de = $fecha_de&fecha_a=$fecha_a";
+    } else {
+        $f_de = $fecha_de . ' 00:00:00';
+        $f_a = $fecha_a . ' 23:59:59';
+        $where = "fecha BETWEEN '$f_de' AND '$f_a'";
+        $buscar = "fecha_de=$fecha_de&fecha_a=$fecha_a";
+    }
+}
+// }else if(empty($_REQUEST['fecha_de']) && empty($_REQUEST['fecha_a'])){
+//     header('Location: ventas.php');
+// }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,14 +68,14 @@ include "../conexion.php";
 
         <div class="lista_usuario">
             <div class="usuario">
-                <h1><i class="fa-solid fa-file"></i> Lista de Ventas</h1>
+                <h1><i class="far fa-newspaper"></i> Lista de Ventas</h1>
                 <a href="nueva_venta.php" class="btn_new btnNewVenta"><i class="fas fa-plus"></i> Nueva Venta</a>
 
             </div>
 
             <div class="Buscar">
                 <form action="buscar_venta.php" method="get" class="form_search">
-                    <input type="text" name="busqueda" id="busqueda" placeholder="N° Factura">
+                    <input type="text" name="busqueda" id="busqueda" placeholder="N° Factura" value="<?php echo $busqueda; ?>">
                     <button type="submit" class="btn_search"><i class="fa fa-search"></i></button>
                 </form>
             </div>
@@ -39,9 +85,9 @@ include "../conexion.php";
             <h5>Buscar por Fecha</h5>
             <form action="buscar_venta.php" method="get" class="form_search_date">
                 <label for="">De: </label>
-                <input type="date" name="decha_de" id="fecha_de" required>
+                <input type="date" name="fecha_de" id="fecha_de" value="<?php echo $fecha_de; ?>" required>
                 <label for="">A </label>
-                <input type="date" name="fehca_a" id="fecha_a" required>
+                <input type="date" name="fecha_a" id="fecha_a" value="<?php echo $fecha_a; ?>" required>
                 <button type="submit" class="btn_view"><i class="fa fa-search"></i></button>
             </form>
         </div>
@@ -60,7 +106,7 @@ include "../conexion.php";
                 <?php
 
                 //paginator
-                $sql_register    = mysqli_query($conection, "SELECT count(*) AS total_registro FROM factura WHERE estatus != 10 ");
+                $sql_register    = mysqli_query($conection, "SELECT count(*) AS total_registro FROM factura WHERE $where ");
                 $result_register = mysqli_fetch_array($sql_register);
                 $total_registro  = $result_register['total_registro'];
 
@@ -83,7 +129,7 @@ include "../conexion.php";
                                                 ON f.usuario = u.idusuario
                                                 INNER JOIN cliente cl
                                                 ON f.codcliente = cl.idcliente
-                                                WHERE f.estatus != 10
+                                                WHERE $where AND f.estatus != 10
                                                 ORDER BY f.fecha DESC LIMIT $desde, $por_pagina");
 
                 mysqli_close($conection);
@@ -161,9 +207,9 @@ include "../conexion.php";
 
 
 
-                    <li><a href="?pagina=<?php echo 1; ?>"><i class="fa-solid fa-backward-step"></i></a>
+                    <li><a href="?pagina=<?php echo 1; ?> &<?php echo $buscar; ?>"><i class="fa-solid fa-backward-step"></i></a>
                     </li>
-                    <li><a href="?pagina=<?php echo $pagina - 1; ?>"><i class="fa-solid fa-caret-left fa-lg"></i></a>
+                    <li><a href="?pagina=<?php echo $pagina - 1; ?>&<?php echo $buscar; ?>"><i class="fa-solid fa-caret-left fa-lg"></i></a>
                     </li>
                 <?php
                 }
@@ -174,7 +220,7 @@ include "../conexion.php";
                     if ($i == $pagina) {
                         echo '<li class="pageSelected">' . $i . '</li>';
                     } else {
-                        echo '<li><a href="?pagina=' . $i . '">' . $i . '</a></li>';
+                        echo '<li><a href="?pagina=' . $i . '&' . $buscar . '">' . $i . '</a></li>';
                     }
                 }
                 if ($pagina != $total_paginas) {
@@ -183,8 +229,8 @@ include "../conexion.php";
 
 
 
-                    <li><a href="?pagina=<?php echo $pagina + 1; ?>"><i class="fa-solid fa-caret-right fa-lg"></i></a></li>
-                    <li><a href="?pagina=<?php echo $total_paginas; ?>"><i class="fa-solid fa-forward-step"></i></a></li>
+                    <li><a href="?pagina=<?php echo $pagina + 1; ?>&<?php echo $buscar; ?>"><i class="fa-solid fa-caret-right fa-lg"></i></a></li>
+                    <li><a href="?pagina=<?php echo $total_paginas; ?>&<?php echo $buscar; ?>"><i class="fa-solid fa-forward-step"></i></a></li>
                 <?php
                 }
                 ?>

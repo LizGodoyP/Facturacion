@@ -13,12 +13,15 @@ if (!empty($_POST))
     
 
     $alert = '';
-    if (empty($_POST['producto']) || empty($_POST['precio']) || $_POST['precio'] <=0 || empty($_POST['id']) || empty($_POST['foto_actual']) || empty($_POST['foto_remove']) ) {
+    if (empty($_POST['producto']) || empty($_POST['categoria']) || empty($_POST['precio']) || $_POST['precio'] <=0 || empty($_POST['id']) || empty($_POST['foto_actual']) || empty($_POST['foto_remove']) ) {
         $alert = '<p class="msg_error">Todos los campos son obligatorios.</p>';
     } else {
-
+        $option = '';
         $codproducto   = $_POST['id'];
         $producto      = $_POST['producto'];
+        $idcategoria = $_POST['idcategoria'];
+        $categoria     = $_POST['categoria'];
+
         $precio        = $_POST['precio'];
         $imgProducto   = $_POST['foto_actual'];
         $imgRemove     = $_SESSION['foto_remove'];
@@ -29,6 +32,8 @@ if (!empty($_POST))
         $url_temp    =$foto['tmp_name'];
 
         $upd = '';
+        
+        
 
         if($nombre_foto != '')
         {
@@ -45,6 +50,7 @@ if (!empty($_POST))
         $query_update = mysqli_query($conection, "UPDATE producto
                                                     SET descripcion = '$producto',
                                                     precio = $precio,
+                                                    categoria = '$categoria',
                                                     foto = '$imgProducto'
                                                     WHERE codproducto = $codproducto ");
                 
@@ -81,8 +87,11 @@ if (empty($_REQUEST['id'])) {
         header("location: lista_producto.php");
     }
 
-    $query_producto = mysqli_query($conection, "SELECT codproducto, descripcion, precio, foto
-                                                FROM producto WHERE codproducto = $id_producto AND estatus=1");
+    $query_producto = mysqli_query($conection, "SELECT p.codproducto, p.descripcion, p.precio, p.foto, c.idcategoria, c.categoria 
+                                                FROM producto p
+                                                INNER JOIN categoria c
+                                                ON p.categoria = c.idcategoria
+                                                WHERE p.codproducto = $id_producto AND p.estatus=1");
     $result_producto = mysqli_num_rows($query_producto);
 
     $foto='';
@@ -136,6 +145,32 @@ if (empty($_REQUEST['id'])) {
 
                 <label for="producto">Producto</label>
                 <input type="text" name="producto" id="producto" placeholder="Nombre del producto" value="<?php echo $data_producto['descripcion'];?>">
+                <label for="categoria" >Tipo de Categoria</label>
+                <?php
+
+                $query_categoria = mysqli_query($conection, "SELECT * FROM categoria");
+                mysqli_close($conection);
+                $result_categoria = mysqli_num_rows($query_categoria);
+                
+                ?>
+
+                <select name="categoria" id="categoria">
+                    <option value=""></option>
+                    <?php
+                    
+                    if ($result_categoria > 0) {
+                        
+                        while ($categoria = mysqli_fetch_array($query_categoria)) { 
+                    ?>
+                            
+                            <option value="<?php echo $categoria["idcategoria"]; ?>"><?php echo $categoria["categoria"] ?></option>
+                    <?php
+
+                            # code...
+                        }
+                    }
+                    ?>
+                </select>
                 <label for="precio">Precio</label>
                 <input type="number" name="precio" id="precio" placeholder="Precio del producto" value="<?php echo $data_producto['precio'];?>">
                

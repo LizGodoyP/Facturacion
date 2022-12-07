@@ -22,7 +22,7 @@ include "../conexion.php";
 
         <div class="lista_usuario">
             <div class="usuario">
-                <h1>Lista de Clientes</h1>
+                <h1><i class="fa-solid fa-users"></i> Lista de Clientes</h1>
                 <a href="registro_cliente.php" class="btn_new"><i class="fa-solid fa-user-plus"></i> Crear cliente</a>
 
             </div>
@@ -30,85 +30,86 @@ include "../conexion.php";
             <div class="Buscar">
                 <form action="buscar_cliente.php" method="get" class="form_search">
                     <input type="text" name="busqueda" id="busqueda" placeholder="Buscar">
-                    <button type="submit"  class="btn_search"><i class="fa fa-search"></i></button>
+                    <button type="submit" class="btn_search"><i class="fa fa-search"></i></button>
                 </form>
 
             </div>
 
 
         </div>
+        <div class="containerTable">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>NIT</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
+                    <th>Acciones</th>
+                </tr>
 
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>NIT</th>
-                <th>Nombre</th>
-                <th>Teléfono</th>
-                <th>Dirección</th>
-                <th>Acciones</th>
-            </tr>
+                <?php
 
-            <?php
+                //paginator
+                $sql_register    = mysqli_query($conection, "SELECT count(*) AS total_registro FROM cliente WHERE estatus= 1");
+                $result_register = mysqli_fetch_array($sql_register);
+                $total_registro  = $result_register['total_registro'];
 
-            //paginator
-            $sql_register    = mysqli_query($conection, "SELECT count(*) AS total_registro FROM cliente WHERE estatus= 1");
-            $result_register = mysqli_fetch_array($sql_register);
-            $total_registro  = $result_register['total_registro'];
+                $por_pagina = 100;
 
-            $por_pagina = 5;
+                if (empty($_GET['pagina'])) {
+                    $pagina = 1;
+                    # code...
+                } else {
+                    $pagina = $_GET['pagina'];
+                }
+                $desde = ($pagina - 1) * $por_pagina;
+                $total_paginas = ceil($total_registro / $por_pagina);
 
-            if (empty($_GET['pagina'])) {
-                $pagina = 1;
-                # code...
-            } else {
-                $pagina = $_GET['pagina'];
-            }
-            $desde = ($pagina - 1) * $por_pagina;
-            $total_paginas = ceil($total_registro / $por_pagina);
-
-            $query = mysqli_query($conection, "SELECT * FROM cliente 
+                $query = mysqli_query($conection, "SELECT * FROM cliente 
             WHERE estatus=1 ORDER BY idcliente ASC LIMIT $desde, $por_pagina
                 ");
 
-            mysqli_close($conection);
+                mysqli_close($conection);
 
-            $result = mysqli_num_rows($query);
-            if ($result > 0) {
-                while ($data = mysqli_fetch_array($query)) {
-                    if ($data["nit"] == 0) {
-                        $nit = 'C/F';
-                    } else {
-                        $nit = $data["nit"];
+                $result = mysqli_num_rows($query);
+                if ($result > 0) {
+                    while ($data = mysqli_fetch_array($query)) {
+                        if ($data["nit"] == 0) {
+                            $nit = 'C/F';
+                        } else {
+                            $nit = $data["nit"];
+                        }
+
+
+                ?>
+                        <tr>
+                            <td><?php echo $data["idcliente"] ?></td>
+                            <td><?php echo $nit; ?></td>
+                            <td><?php echo $data["nombre"] ?></td>
+                            <td><?php echo $data["telefono"] ?></td>
+                            <td><?php echo $data["direccion"] ?></td>
+
+                            <td>
+                                <a class="link_edit" href="editar_cliente.php?id=<?php echo $data["idcliente"]; ?>"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
+                                <?php
+                                if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
+                                    |
+                                    <a class="link_delete" href="eliminar_confirmar_cliente.php?id=<?php echo $data["idcliente"]; ?>"><i class="fa-solid fa-trash"></i> Eliminar</a>
+                                <?php
+                                }
+                                ?>
+
+                            </td>
+                        </tr>
+
+                <?php
                     }
-
-
-            ?>
-                    <tr>
-                        <td><?php echo $data["idcliente"] ?></td>
-                        <td><?php echo $nit; ?></td>
-                        <td><?php echo $data["nombre"] ?></td>
-                        <td><?php echo $data["telefono"] ?></td>
-                        <td><?php echo $data["direccion"] ?></td>
-
-                        <td>
-                            <a class="link_edit" href="editar_cliente.php?id=<?php echo $data["idcliente"]; ?>"><i class="fa-solid fa-pen-to-square"></i> Editar</a>
-                            <?php
-                            if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
-                                |
-                                <a class="link_delete" href="eliminar_confirmar_cliente.php?id=<?php echo $data["idcliente"]; ?>"><i class="fa-solid fa-trash"></i> Eliminar</a>
-                            <?php
-                            }
-                            ?>
-
-                        </td>
-                    </tr>
-
-            <?php
                 }
-            }
-            ?>
+                ?>
 
-        </table>
+            </table>
+        </div>
 
         <!-- paginator -->
         <div class="paginator">

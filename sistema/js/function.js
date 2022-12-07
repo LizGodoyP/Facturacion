@@ -1,7 +1,22 @@
 
 $(document).ready(function () {
 
-    //--------------------- SELECCIONAR FOTO PRODUCTO ---------------------
+    $('.btnMenu').click(function(e){
+        e.preventDefault();
+        if($('nav').hasClass('viewMenu'))
+        {
+            $('nav').removeClass('viewMenu');
+        }else{
+            $('nav').addClass('viewMenu');
+        }    
+    });
+
+    $('nav ul li').click(function () {
+        $('nav ul li ul').slideUp();
+        $(this).children('ul').slideToggle();
+    });
+
+    //--------------------- SELECCIONAR FOTO  PRODUCTO ---------------------
     $("#foto").on("change", function () {
         var uploadFoto = document.getElementById("foto").value;
         var foto = document.getElementById("foto").files;
@@ -135,8 +150,8 @@ $(document).ready(function () {
                         '<div class="alert alertAddProduct"></div>' +
 
                         '<div class="usuario">' +
-                        '<a href="#" class="btn_cancel" onclick="closeModal();" ><i class="fas fa-ban"></i>Cerrar</a>' +
-                        '<button type="submit" class="btn_ok"><i class="far fa-trash-alt"></i>Eliminar</button>' +
+                        '<a href="#" class="btn_cancel" onclick="closeModal();" ><i class="fas fa-ban"></i> Cerrar</a>' +
+                        '<button type="submit" class="btn_ok"><i class="far fa-trash-alt"></i> Eliminar</button>' +
                         '</div>' +
                         '</form > ');
 
@@ -395,34 +410,31 @@ $(document).ready(function () {
         }
     });
 
-     //Facturar venta
-     $('#btn_facturar_venta').click(function (e) {
+    //Facturar venta
+    $('#btn_facturar_venta').click(function (e) {
         e.preventDefault();
 
         var rows = $('#detalle_venta tr').length;
-        if (rows > 0) 
-        {
+        if (rows > 0) {
             var action = 'procesarVenta';
             var codcliente = $('#idcliente').val();
-            
+
             $.ajax({
                 url: 'ajax.php',
                 type: 'POST',
                 async: true,
-                data: { action: action,codcliente: codcliente},
+                data: { action: action, codcliente: codcliente },
 
-                success: function(response) 
-                {                
-                    if (response != 'error') 
-                    {
+                success: function (response) {
+                    if (response != 'error') {
                         var info = JSON.parse(response);
                         // console.log(info);
-                        generarPDF(info.codcliente,info.nofactura);
+                        generarPDF(info.codcliente, info.nofactura);
 
                         location.reload();
-                      
 
-                    }else{
+
+                    } else {
                         console.log('no sy y');
                     }
 
@@ -438,20 +450,232 @@ $(document).ready(function () {
     });
 
 
+    //--------------------- MODAL FORM ANULAR FACTURA ---------------------
+    $('.anular_factura').click(function (e) {
+        e.preventDefault();
+        var nofactura = $(this).attr('fac');
+        var action = 'infoFactura';
+
+        $.ajax({
+            url: 'ajax.php',
+            type: 'POST',
+            async: true,
+            data: { action: action, nofactura: nofactura },
+
+            success: function (response) {
+                if (response != 'error') {
+                    var info = JSON.parse(response);
+                    $('.bodyModal').html('<form action="" method="post" name="form_anular_factura" id="form_anular_factura" onsubmit="event.preventDefault(); anularFactura();">' +
+                        '<h1><i class="fas fa-cubes" style="font-size: 45pt;"></i><br>Anular Venta</h1>' +
+                        '<p>¿Realmente desea anular la venta?</p>' +
+                        '<p><strong>N°: ' + info.nofactura + '</strong></p>' +
+                        '<p><strong>Monto: S/. ' + info.totalfactura + '</strong></p>' +
+                        '<p><strong>Fecha: ' + info.fecha + '</strong></p>' +
+                        '<input type="hidden" name="action" value="anularFactura">' +
+                        '<input type="hidden" name="no_factura" id="no_factura" value="' + info.nofactura + '" required>' +
+
+
+
+                        '<div class="alert alertAddProduct"></div>' +
+                        '<div class="usuario">' +
+                        '<button type="submit" class="btn_ok"><i class="far fa-trash-alt"></i> Anular</button>' +
+                        '<a href="#" class="btn_cancel" onclick="closeModal();" ><i class="fas fa-ban"></i> Cerrar</a>' +
+                        '</div>' +
+                        '</form >');
+
+
+                }
+                // console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+
+        });
+
+
+        $('.modal').fadeIn();
+    });
+
+
+    //Ver factura
+    $('.view_factura').click(function (e) {
+        e.preventDefault();
+        var codCliente = $(this).attr('cl');
+        var noFactura = $(this).attr('f');
+        generarPDF(codCliente, noFactura);
+    });
+
+    //Cambiar password 
+    $('.newPass').keyup(function () {
+        validPass();
+    });
+
+
+    //Form Cambiar contraseña
+    $('#frmChangePass').submit(function (e) {
+        e.preventDefault();
+        var passActual = $('#txtPassUser').val();
+        var passNuevo = $('#txtNewPassUser').val();
+        var confirmPassNuevo = $('#txtPassConfirm').val();
+        var action = "changePassword";
+
+        if (passNuevo != confirmPassNuevo) {
+            $('.alertChangePass').html('<p style="color:red;"> Las contraseñas no coinciden.</p>');
+            $('.alertChangePass').slideDown();
+            return false;
+        }
+        if (passNuevo.length < 5) {
+            $('.alertChangePass').html('<p style="color:red;"> La nueva contraseña debe ser de 5 carácteres mínimo.</p>');
+            $('.alertChangePass').slideDown();
+            return false;
+        }
+
+        $.ajax({
+            url: 'ajax.php',
+            type: 'POST',
+            async: true,
+            data: { action: action, passActual: passActual, passNuevo: passNuevo },
+
+            success: function (response) {
+                if (response != 'error') {
+                    var info = JSON.parse(response);
+                    if (info.cod == '00') {
+                        $('.alertChangePass').html('<p style="color:green;">' + info.msg + '</p>');
+                        $('#frmChangePass')[0].reset();
+                    } else {
+                        $('.alertChangePass').html('<p style="color:red;">' + info.msg + '</p>');
+                    }
+                    $('.alertChangePass').slideDown();
+
+                }
+
+            },
+            error: function (error) {
+
+            }
+        });
+
+    });
+
+    //Actuaizar datos de empresa
+    $('#frmEmpresa').submit(function (e) {
+        e.preventDefault();
+        var intNit = $('#txtNit').val();
+        var strNombreEmp = $('#txtNombre').val();
+        var strRSocialEmp = $('#txtRSocial').val();
+        var intTelEmp = $('#txtTelEmpresa').val();
+        var strEmailEmp = $('#txtEmailEmpresa').val();
+        var strDirEmp = $('#txtDirEmpresa').val();
+        var intIva = $('#txtIva').val();
+
+        if (intNit == '' || strNombreEmp == '' || intTelEmp == '' || strEmailEmp == '' || strDirEmp == '' || intIva == '') {
+            $('.alertFormEmpresa').html('<p style="color:red;">Todos los campos son obigatorios</p>');
+            $('.alertFormEmpresa').slideDown();
+            return false;
+        }
+        $.ajax({
+            url: 'ajax.php',
+            type: 'POST',
+            async: true,
+            data: $('#frmEmpresa').serialize(),
+
+            beforeSend: function() {
+                $('.alertFormEmpresa').slideUp();
+                $('.alertFormEmpresa').html('');
+                $('#frmEmpresa input').attr('disabled', 'disabled');
+            },
+
+            success: function(response) 
+            {
+                console.log(response);
+                var info = JSON.parse(response);
+                if (info.cod == '00') {
+                    $('.alertFormEmpresa').html('<p style="color:green;">' + info.msg + '</p>');
+                    $('.alertFormEmpresa').slideDown();
+                } else {
+                    $('.alertFormEmpresa').html('<p style="color:red;">' + info.msg + '</p>');
+                }
+                $('.alertFormEmpresa').slideDown();
+                $('#frmEmpresa input').removeAttr('disabled');
+
+            },
+            error: function (error) {
+            }
+        });
+
+    });
+
+
+
 
 
 });//end_ready
 
 
-function generarPDF(cliente,factura){
+
+
+
+function validPass() {
+    var passNuevo = $('#txtNewPassUser').val();
+    var confirmPassNuevo = $('#txtPassConfirm').val();
+    if (passNuevo != confirmPassNuevo) {
+        $('.alertChangePass').html('<p style="color:red;"> Las contraseñas no coinciden.</p>');
+        $('.alertChangePass').slideDown();
+        return false;
+    }
+    if (passNuevo.length < 5) {
+        $('.alertChangePass').html('<p style="color:red;"> La nueva contraseña debe ser de 5 carácteres mínimo.</p>');
+        $('.alertChangePass').slideDown();
+        return false;
+    }
+    $('.alertChangePass').html('');
+    $('.alertChangePass').slideUp();
+}
+
+
+
+//Eiminar Factura
+
+function anularFactura() {
+    var noFactura = $('#no_factura').val();
+    var action = 'anularFactura';
+
+    $.ajax({
+        url: 'ajax.php',
+        type: 'POST',
+        async: true,
+        data: { action: action, noFactura: noFactura },
+
+        success: function (response) {
+            if (response == 'error') {
+                $('.alertAddProduct').html('<p style="color:red;">Error al anular la factura.</p>');
+
+            } else {
+                $('#row_' + noFactura + ' .estado').html('<span class="anulada">Anulada</span>');
+                $('#form_anular_factura .btn_ok').remove();
+                $('#row_' + noFactura + ' .div_factura').html('<button type="button" class="btn_anular inactive"><i class="fas fa-ban"></i> </button>');
+                $('.alertAddProduct').html('<p> Factura anulada. </p>');
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+
+    });
+}
+
+
+
+function generarPDF(cliente, factura) {
     var ancho = 1000;
     var alto = 800;
     //Calcular posición x,y para centrar a ventana
-    var x = parseInt((window.screen.width/2) - (ancho/2));
-    var y = parseInt((window.screen.height/2) - (alto/2));
+    var x = parseInt((window.screen.width / 2) - (ancho / 2));
+    var y = parseInt((window.screen.height / 2) - (alto / 2));
 
-    $url = 'factura/generaFactura.php?cl='+cliente+'&f='+factura;
-    window.open($url, "Factura", "left="+x+",top="+y+",height="+alto+",width="+ancho+",scrollbars=si,location=no,resizable=si,menubar=no");
+    $url = 'factura/generaFactura.php?cl=' + cliente + '&f=' + factura;
+    window.open($url, "Factura", "left=" + x + ",top=" + y + ",height=" + alto + ",width=" + ancho + ",scrollbars=si,location=no,resizable=si,menubar=no");
 
 }
 
@@ -466,10 +690,8 @@ function del_product_detalle(correlativo) {
         async: true,
         data: { action: action, id_detalle: id_detalle },
 
-        success: function (response) 
-        {
-            if (response != 'error') 
-            {
+        success: function (response) {
+            if (response != 'error') {
                 var info = JSON.parse(response);
                 $('#detalle_venta').html(info.detalle);
                 $('#detalle_totales').html(info.totales);
@@ -488,7 +710,7 @@ function del_product_detalle(correlativo) {
                 //Ocultar botón agregar
                 $('#add_product_venta').slideUp();
 
-            }else{
+            } else {
                 $('#detalle_venta').html('');
                 $('#detalle_totales').html('');
 
@@ -504,12 +726,11 @@ function del_product_detalle(correlativo) {
 
 
 //Mostrar/Ocultar boton procesar
-function viewProcesar(){
-    if ($('#detalle_venta tr').length > 0)
-    {
-        $('#btn_facturar_venta').show();       
-    }else{
-        $('#btn_facturar_venta').hide(); 
+function viewProcesar() {
+    if ($('#detalle_venta tr').length > 0) {
+        $('#btn_facturar_venta').show();
+    } else {
+        $('#btn_facturar_venta').hide();
     }
 }
 

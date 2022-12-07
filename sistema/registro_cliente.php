@@ -62,7 +62,7 @@ if (!empty($_POST))
     <section id="container">
 
         <div class="form_register">
-            <h1>Registro Cliente</h1>
+            <h1><i class="fa-solid fa-user-plus"></i> Registro Cliente</h1>
             <hr>
             <div class="alert"><?php echo isset($alert)  ? $alert : ''; ?></div>
 

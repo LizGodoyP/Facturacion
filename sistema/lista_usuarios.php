@@ -40,7 +40,7 @@ include "../conexion.php";
 
 
         </div>
-
+<div class="containerTable">
         <table>
             <tr>
                 <th>ID</th>
@@ -58,7 +58,7 @@ include "../conexion.php";
             $result_register = mysqli_fetch_array($sql_register);
             $total_registro  = $result_register['total_registro'];
 
-            $por_pagina = 5;
+            $por_pagina = 10;
 
             if (empty($_GET['pagina'])) {
                 $pagina = 1;
@@ -105,6 +105,7 @@ include "../conexion.php";
             ?>
 
         </table>
+        </div>
 
         <!-- paginator -->
         <div class="paginator">

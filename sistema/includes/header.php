@@ -12,10 +12,11 @@ if (empty($_SESSION['active'])) {
 
 <header>
     <div class="header">
+        <a href="#" class="btnMenu"><i class="fas fa-bars"></i></a>
 
         <h1>Panadería Artesanal "MIL SABORES"</h1>
         <div class="optionsBar">
-            <p>Perú, <?php echo fechaC(); ?></p>
+            <p class="Peru">Perú, <?php echo fechaC(); ?></p>
             <span>|</span>
             <span class="user"><?php echo  $_SESSION['user'] . '-' . $_SESSION['rol']; ?></span>
             <img class="photouser" src="img/user.png" alt="Usuario">
