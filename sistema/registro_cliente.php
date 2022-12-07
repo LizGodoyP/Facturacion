@@ -8,7 +8,7 @@ if (!empty($_POST))
 {
     $alert = '';
     //No pueden ir vacíos los sgtes campos
-    if (empty($_POST['nombre']) || empty($_POST['telefono']) || empty($_POST['direccion'])) 
+    if (empty($_POST['nombre'])) 
     {
         $alert = '<p class="msg_error">Todos los campos son obligatorios.</p>';
     } else {

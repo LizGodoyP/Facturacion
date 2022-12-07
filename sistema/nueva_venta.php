@@ -39,11 +39,11 @@ include "../conexion.php";
                 </div>
                 <div class="wd30">
                     <label for="">Teléfono</label>
-                    <input type="number" name="tel_cliente" id="tel_cliente" disabled required>
+                    <input type="number" name="tel_cliente" id="tel_cliente" disabled >
                 </div>
                 <div class="wd100">
                     <label for="">Dirección</label>
-                    <input type="text" name="dir_cliente" id="dir_cliente" disabled required>
+                    <input type="text" name="dir_cliente" id="dir_cliente" disabled >
                 </div>
                 <div id="div_registro_cliente" class="wd100">
                     <button type="submit" class="btn_save"><i class="far fa-save fa-lg"></i> Guardar</button>
