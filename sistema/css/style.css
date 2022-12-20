@@ -246,13 +246,18 @@ input, select{
 	border-radius: 6px;
 	margin: 20px auto;
 }
-.msg_error{
-	color: #000000;
-	background-color: #cc0000a8;
+.msg_error, .msg_save{
+	color: white !important;
+	letter-spacing: 3px;
+	font-weight: bold;
+	background-color: #ff0000bd;
+	border-radius: 15px;
+	text-align: center;
+	font-size: 12px
 }
 .msg_save{
-	color: #000000;
-	background-color: #19af96d3;
+	
+	background-color: #71ff55 !important;
 }
 .alert p{
 	padding: 10px;

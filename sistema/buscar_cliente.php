@@ -59,7 +59,7 @@ include "../conexion.php";
             <table>
                 <tr>
                     <th>ID</th>
-                    <th>Nit</th>
+                    <th>DNI</th>
                     <th>Nombre</th>
                     <th>Teléfono</th>
                     <th>Dirección</th>
@@ -80,7 +80,7 @@ include "../conexion.php";
 
                 if (empty($_GET['pagina'])) {
                     $pagina = 1;
-                    # code...
+                    
                 } else {
                     $pagina = $_GET['pagina'];
                 }

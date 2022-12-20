@@ -16,7 +16,7 @@
 
 	if(empty($_REQUEST['cl']) || empty($_REQUEST['f']))
 	{
-		echo "No es posible generar la factura.";
+		echo "No es posible generar el ticket.";
 	}else{
 		$codCliente = $_REQUEST['cl'];
 		$noFactura = $_REQUEST['f'];
@@ -49,12 +49,14 @@
 				$anulada = '<img class="anulada" src="img/anulado.png" alt="Anulada">';
 			}
 
-			$query_productos = mysqli_query($conection,"SELECT p.descripcion,dt.cantidad,dt.precio_venta,(dt.cantidad * dt.precio_venta) as precio_total
+			$query_productos = mysqli_query($conection,"SELECT p.descripcion,dt.cantidad,dt.precio_venta, c.categoria,(dt.cantidad * dt.precio_venta) as precio_total
 														FROM factura f
 														INNER JOIN detallefactura dt
 														ON f.nofactura = dt.nofactura
 														INNER JOIN producto p
 														ON dt.codproducto = p.codproducto
+														INNER JOIN categoria c
+                                                        ON p.categoria = c.idcategoria
 														WHERE f.nofactura = $no_factura ");
 			$result_detalle = mysqli_num_rows($query_productos);
 
@@ -67,7 +69,7 @@
 
 			$dompdf->loadHtml($html);
 			// (Optional) Setup the paper size and orientation
-			$dompdf->setPaper('letter', 'portrait');
+			$dompdf->setPaper('a8', 'portrait');
 			// Render the HTML as PDF
 			$dompdf->render();
 			// Output the generated PDF to Browser

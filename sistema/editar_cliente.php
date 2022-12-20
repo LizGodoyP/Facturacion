@@ -6,7 +6,7 @@ include "../conexion.php";
 
 if (!empty($_POST)) {
     $alert = '';
-    if (empty($_POST['nombre']) || empty($_POST['telefono']) || empty($_POST['direccion']) ) {
+    if (empty($_POST['nombre']) ) {
         $alert = '<p class="msg_error">Todos los campos son obligatorios.</p>';
     } else {
         include "../conexion.php";
@@ -29,7 +29,7 @@ if (!empty($_POST)) {
 
 
         if ($result > 0) {
-            $alert = '<p class="msg_error">El nit ya existe.</p>';
+            $alert = '<p class="msg_error">El DNI ya existe.</p>';
         } else {
 
             if($nit=='')
@@ -38,7 +38,7 @@ if (!empty($_POST)) {
 
             }    
                 $sql_update = mysqli_query($conection,"UPDATE cliente 
-                            SET nit = '$nit', nombre = '$nombre', telefono = '$telefono', direccion = '$direccion' 
+                            SET nit = '$nit', nombre = '$nombre', telefono = $telefono, direccion = '$direccion' 
                             WHERE idcliente = $idCliente ");
 
             if ($sql_update) {
@@ -98,12 +98,12 @@ if ($result_sql == 0) {
 
             <form action="" method="POST">
                 <input type="hidden" name="id" value="<?php echo $idcliente;?>">
-                <label for="nit">NIT</label>
-                <input type="number" name="nit" id="nit" placeholder="Número de NIT" value="<?php echo $nit;?>">
+                <label for="nit">DNI</label>
+                <input type="number" name="nit" id="nit" placeholder="Número de DNI" value="<?php echo $nit;?>">
                 <label for="nombre">Nombre</label>
                 <input type="text" name="nombre" id="nombre" placeholder="Nombre completo" value="<?php echo $nombre;?> ">
                 <label for="telefono">Teléfono</label>
-                <input type="number" name="telefono" id="telefono" placeholder="Teléfono" value="<?php echo $telefono;?>">
+                <input type="text" name="telefono" id="telefono" placeholder="Teléfono" value="<?php echo $telefono;?>">
                 <label for="direccion">Dirección</label>
                 <input type="text" name="direccion" id="direccion" placeholder="Dirección" value="<?php echo $direccion;?> ">
                 

@@ -109,7 +109,7 @@ if (!empty($_POST))
                 </select>
 
                 <label for="precio">Precio</label>
-                <input type="number" name="precio" id="precio" placeholder="Precio del producto">
+                <input type="number" step="0.01" name="precio" id="precio" placeholder="Precio del producto">
                 <label for="cantidad">Cantidad</label>
                 <input type="text" name="cantidad" id="cantidad" placeholder="Cantidad del producto">
 

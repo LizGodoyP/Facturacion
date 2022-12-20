@@ -76,7 +76,7 @@ if($_SESSION['rol'] != 1 and $_SESSION['rol'] !=2)
         <div class="data_delete">
             <h2>¿Está seguro de eliminar el siguiente registro?</h2>
             <p>Nombre del cliente: <span><?php echo $nombre; ?></span></p>
-            <p>Nit: <span><?php echo $nit; ?></span></p>
+            <p>DNI: <span><?php echo $nit; ?></span></p>
            
 
             <form method="POST" action="">

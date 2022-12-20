@@ -41,7 +41,7 @@ include "../conexion.php";
             <table>
                 <tr>
                     <th>ID</th>
-                    <th>NIT</th>
+                    <th>DNI</th>
                     <th>Nombre</th>
                     <th>Teléfono</th>
                     <th>Dirección</th>

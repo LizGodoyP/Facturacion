@@ -8,9 +8,9 @@ if (!empty($_POST))
 {
     $alert = '';
     //No pueden ir vacíos los sgtes campos
-    if (empty($_POST['nombre']) || empty($_POST['telefono']) || empty($_POST['direccion'])) 
+    if (empty($_POST['nombre'])) 
     {
-        $alert = '<p class="msg_error">Todos los campos son obligatorios.</p>';
+        $alert = '<p class="msg_error">El campo nombre es obligatorio.</p>';
     } else {
       
         $nit        = $_POST['nit'];
@@ -26,7 +26,7 @@ if (!empty($_POST))
             $result = mysqli_fetch_array($query);
         } 
         if ($result>0) {            
-            $alert = '<p class="msg_error">El número de NIT ya existe.</p>';
+            $alert = '<p class="msg_error">El número de DNI ya existe.</p>';
             
         }else{
             $query_insert = mysqli_query($conection, "INSERT INTO cliente(nit, nombre, telefono, direccion, usuario_id) 
@@ -67,12 +67,12 @@ if (!empty($_POST))
             <div class="alert"><?php echo isset($alert)  ? $alert : ''; ?></div>
 
             <form action="" method="POST">
-                <label for="nit">NIT</label>
-                <input type="number" name="nit" id="nit" placeholder="Número de NIT">
+                <label for="nit">DNI</label>
+                <input type="number" name="nit" id="nit" placeholder="Número de DNI">
                 <label for="nombre">Nombre</label>
                 <input type="text" name="nombre" id="nombre" placeholder="Nombre completo">
                 <label for="telefono">Teléfono</label>
-                <input type="number" name="telefono" id="telefono" placeholder="Teléfono">
+                <input type="text" name="telefono" id="telefono" placeholder="Teléfono">
                 <label for="direccion">Dirección</label>
                 <input type="text" name="direccion" id="direccion" placeholder="Dirección">
                 

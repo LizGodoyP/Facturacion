@@ -41,7 +41,7 @@
 					<span class="h3">Cliente</span>
 					<table class="datos_cliente">
 						<tr>
-							<td><label>Nit:</label><p>54895468</p></td>
+							<td><label>DNI:</label><p>54895468</p></td>
 							<td><label>Teléfono:</label> <p>7854526</p></td>
 						</tr>
 						<tr>
@@ -104,15 +104,15 @@
 			</tbody>
 			<tfoot id="detalle_totales">
 				<tr>
-					<td colspan="3" class="textright"><span>SUBTOTAL Q.</span></td>
+					<td colspan="3" class="textright"><span>SUBTOTAL S.</span></td>
 					<td class="textright"><span>516.67</span></td>
 				</tr>
 				<tr>
-					<td colspan="3" class="textright"><span>IVA (12%)</span></td>
+					<td colspan="3" class="textright"><span>IGV (18%)</span></td>
 					<td class="textright"><span>516.67</span></td>
 				</tr>
 				<tr>
-					<td colspan="3" class="textright"><span>TOTAL Q.</span></td>
+					<td colspan="3" class="textright"><span>TOTAL S.</span></td>
 					<td class="textright"><span>516.67</span></td>
 				</tr>
 		</tfoot>

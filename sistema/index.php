@@ -151,7 +151,7 @@ session_start();
 				<?php if ($_SESSION['rol'] == 1) { ?>
 					<div class="containerDataEmpresa">
 						<div class="logoEmpresa">
-							<img src="img/logoEmpresa.png" alt="">
+							<img src="img/logo_sistema.png" alt="">
 						</div>
 						<h4>Datos de la Empresa</h4>
 						<form action="" method="post" name="frmEmpresa" id="frmEmpresa">

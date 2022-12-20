@@ -172,7 +172,7 @@ if (empty($_REQUEST['id'])) {
                     ?>
                 </select>
                 <label for="precio">Precio</label>
-                <input type="number" name="precio" id="precio" placeholder="Precio del producto" value="<?php echo $data_producto['precio'];?>">
+                <input type="number" step="0.01" name="precio" id="precio" placeholder="Precio del producto" value="<?php echo $data_producto['precio'];?>">
                
                 <div class="photo">
                     <label for="foto">Foto</label>

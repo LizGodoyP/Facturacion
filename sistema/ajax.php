@@ -147,16 +147,16 @@ if (!empty($_POST)) {
                 }
 
                 while ($data = mysqli_fetch_assoc($query_detalle_temp)) {
-                    $precioTotal = round($data['cantidad'] * $data['precio_venta'], 2);
-                    $sub_total = round($sub_total + $precioTotal, 2);
-                    $total = round($total + $precioTotal, 2);
+                    $precioTotal = number_format($data['cantidad'] * $data['precio_venta'], 2);
+                    $sub_total = number_format($sub_total + $precioTotal, 2);
+                    $total = number_format($total + $precioTotal, 2);
 
                     $detalleTabla .= '<tr>
                                         <td>' . $data['codproducto'] . '</td>
                                         <td colspan="2">' . $data['descripcion'] . '</td>
                                         <td class="textcenter">' . $data['cantidad'] . '</td>
                                         <td class="textright">' . $data['precio_venta'] . '</td>
-                                        <td class="textright">' . $precioTotal . '.00</td>
+                                        <td class="textright">' . $precioTotal . '</td>
                                         <td class="">
                                             <a href="#" class="link_delete" onclick="event.preventDefault(); 
                                             del_product_detalle(' . $data['correlativo'] . ');"><i class="far fa-trash-alt"></i></a>
@@ -164,12 +164,12 @@ if (!empty($_POST)) {
                                     </tr>';
                 }
 
-                $impuesto = round($sub_total * ($igv / 100), 2);
-                $tl_snigv = round($sub_total - $impuesto, 2);
-                $total = round($tl_snigv + $impuesto, 2);
+                $impuesto = number_format($sub_total * ($igv / 100), 2);
+                $tl_snigv = number_format($sub_total - $impuesto, 2);
+                $total = number_format($tl_snigv + $impuesto, 2);
 
                 $detalleTotales .= '<tr>
-                                        <td colspan="5" class="textright">SUBTOTAL Q.</td>
+                                        <td colspan="5" class="textright"SUBTOTAL S/.</td>
                                         <td class="textright">' . $tl_snigv . '</td>
                                         <td></td>
                                     </tr>
@@ -235,16 +235,16 @@ if (!empty($_POST)) {
                 }
 
                 while ($data = mysqli_fetch_assoc($query)) {
-                    $precioTotal = round($data['cantidad'] * $data['precio_venta'], 2);
-                    $sub_total = round($sub_total + $precioTotal, 2);
-                    $total = round($total + $precioTotal, 2);
+                    $precioTotal = number_format($data['cantidad'] * $data['precio_venta'], 2);
+                    $sub_total = number_format($sub_total + $precioTotal, 2);
+                    $total = number_format($total + $precioTotal, 2);
 
                     $detalleTabla .= '<tr>
                                         <td>' . $data['codproducto'] . '</td>
                                         <td colspan="2">' . $data['descripcion'] . '</td>
                                         <td class="textcenter">' . $data['cantidad'] . '</td>
                                         <td class="textright">' . $data['precio_venta'] . '</td>
-                                        <td class="textright">' . $precioTotal . '.00</td>
+                                        <td class="textright">' . $precioTotal .'</td>
                                         <td class="">
                                             <a href="#" class="link_delete" onclick="event.preventDefault(); 
                                             del_product_detalle(' . $data['correlativo'] . ');"><i class="far fa-trash-alt"></i></a>
@@ -252,12 +252,12 @@ if (!empty($_POST)) {
                                     </tr>';
                 }
 
-                $impuesto = round($sub_total * ($igv / 100), 2);
-                $tl_snigv = round($sub_total - $impuesto, 2);
-                $total = round($tl_snigv + $impuesto, 2);
+                $impuesto = number_format($sub_total * ($igv / 100), 2);
+                $tl_snigv = number_format($sub_total - $impuesto, 2);
+                $total = number_format($tl_snigv + $impuesto, 2);
 
                 $detalleTotales .= '<tr>
-                                        <td colspan="5" class="textright">SUBTOTAL Q.</td>
+                                        <td colspan="5" class="textright">SUBTOTAL S/.</td>
                                         <td class="textright">' . $tl_snigv . '</td>
                                         <td></td>
                                     </tr>
@@ -313,16 +313,16 @@ if (!empty($_POST)) {
                 }
 
                 while ($data = mysqli_fetch_assoc($query_detalle_temp)) {
-                    $precioTotal = round($data['cantidad'] * $data['precio_venta'], 2);
-                    $sub_total = round($sub_total + $precioTotal, 2);
-                    $total = round($total + $precioTotal, 2);
+                    $precioTotal = number_format($data['cantidad'] * $data['precio_venta'], 2);
+                    $sub_total = number_format($sub_total + $precioTotal, 2);
+                    $total = number_format($total + $precioTotal, 2);
 
                     $detalleTabla .= '<tr>
                                         <td>' . $data['codproducto'] . '</td>
                                         <td colspan="2">' . $data['descripcion'] . '</td>
                                         <td class="textcenter">' . $data['cantidad'] . '</td>
                                         <td class="textright">' . $data['precio_venta'] . '</td>
-                                        <td class="textright">' . $precioTotal . '.00</td>
+                                        <td class="textright">' . $precioTotal . '</td>
                                         <td class="">
                                             <a href="#" class="link_delete" onclick="event.preventDefault(); 
                                             del_product_detalle(' . $data['correlativo'] . ');"><i class="far fa-trash-alt"></i></a>
@@ -330,12 +330,12 @@ if (!empty($_POST)) {
                                     </tr>';
                 }
 
-                $impuesto = round($sub_total * ($igv / 100), 2);
-                $tl_snigv = round($sub_total - $impuesto, 2);
-                $total = round($tl_snigv + $impuesto, 2);
+                $impuesto = number_format($sub_total * ($igv / 100), 2);
+                $tl_snigv = number_format($sub_total - $impuesto, 2);
+                $total = number_format($tl_snigv + $impuesto, 2);
 
                 $detalleTotales .= '<tr>
-                                        <td colspan="5" class="textright">SUBTOTAL Q.</td>
+                                        <td colspan="5" class="textright">SUBTOTAL S/.</td>
                                         <td class="textright">' . $tl_snigv . '</td>
                                         <td></td>
                                     </tr>
@@ -345,7 +345,7 @@ if (!empty($_POST)) {
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="5" class="textright">TOTAL</td>
+                                        <td colspan="5" class="textright">TOTAL S/.</td>
                                         <td class="textright">' . $total . '</td>
                                         <td></td>
                                     </tr>';
