@@ -14,7 +14,6 @@ session_start();
 
 <body>
 	<?php
-
 	include "includes/header.php";
 	include "../conexion.php";
 
@@ -50,10 +49,7 @@ session_start();
 		$data_dash = mysqli_fetch_assoc($query_dash);
 		mysqli_close($conection);
 	}
-
-
 	?>
-
 	<section id="container">
 		<div class="divContainer">
 			<div>

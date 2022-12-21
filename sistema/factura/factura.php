@@ -17,11 +17,11 @@
 <div id="page_pdf">
 	<table id="factura_head">
 		<tr>
-			<td class="logo_factura">
+			<!-- <td class="logo_factura">
 				<div>
 					<img src="img/logo_ticket.png">
 				</div>
-			</td>
+			</td> -->
 			<td class="info_empresa">
 				<?php
 					if($result_config > 0){
@@ -57,12 +57,12 @@
 					<span class="h3">Cliente</span>
 					<table class="datos_cliente">
 						<tr>
-							<td><label>DNI:</label><p><?php echo $factura['nit']; ?></p></td>
-							<td><label>Teléfono:</label> <p><?php echo $factura['telefono']; ?></p></td>
+							<td><label>Dni:</label><p><?php echo $factura['nit']; ?></p></td>
+							<td><label>Teléfono:</label><p><?php echo $factura['telefono']; ?></p></td>
 						</tr>
 						<tr>
-							<td><label>Nombre:</label> <p><?php echo $factura['nombre']; ?></p></td>
-							<td><label>Dirección:</label> <p><?php echo $factura['direccion']; ?></p></td>
+							<td><label>Nombre:</label><p><?php echo $factura['nombre']; ?></p></td>
+							<td><label>Dirección:</label><p><?php echo $factura['direccion']; ?></p></td>
 						</tr>
 					</table>
 				</div>
@@ -74,10 +74,11 @@
 	<table id="factura_detalle">
 			<thead>
 				<tr>
-					<th width="10px">Cant.</th>
-					<th class="textleft" width="40px">Descripción</th>
-					<th class="textright" width="40px">Precio Unitario.</th>
-					<th class="textright" width="40px"> Precio Total</th>
+
+					<th >Cant.</th>
+					<th class="textleft" >Descripción</th>
+					<th class="textright" >Precio Unitario.</th>
+					<th class="textright" >Precio Total</th>
 				</tr>
 			</thead>
 			<tbody id="detalle_productos">

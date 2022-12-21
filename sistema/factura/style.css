@@ -8,11 +8,11 @@
 }
 p, label, span, table{
 	font-family: 'BrixSansRegular';
-	font-size: 3pt !important;
+	font-size: 5pt !important;
 }
 .h2{
 	font-family: 'BrixSansBlack';
-	font-size: 4pt;
+	font-size: 6pt;
 }
 .h3{
 	font-family: 'BrixSansBlack';
@@ -26,7 +26,7 @@ p, label, span, table{
 }
 #page_pdf{
 	width: 95%;
-	margin: 5px auto 5px auto;
+	margin: 5px 5px 5px 5px;
 }
 
 #factura_head, #factura_cliente, #factura_detalle{
@@ -37,14 +37,15 @@ p, label, span, table{
 	width: 20%;
 }
 .info_empresa{
-	width: 50%;
+	width: 100% !important;
 	text-align: center;
+
 }
 .info_factura{
-	width: 30%;
+	width: 100% !important;
 }
 .info_cliente{
-	width: 100%;
+	width: 100% !important;
 }
 .datos_cliente{
 	width: 100%;
@@ -62,15 +63,16 @@ p, label, span, table{
 
 }
 .datos_cliente label{
-	width: 30px;
-	display: inline-block;
-	justify-content: center;
-	font-size: 3pt; 
+	width: auto !important;
+	
+	display: inline-block;	
+	font-size: 5pt !important; 
 
 }
 .datos_cliente p{
 	display: inline-block;
-	font-size: 3pt !important;
+	justify-content: center !important;
+	font-size: 5pt !important;
 }
 
 .textright{
@@ -91,25 +93,20 @@ p, label, span, table{
 	padding: 0 3px;
 	font-size: 4pt;
 }
-#factura_head{
-	justify-content: space-between !important;
-
-}
 
 #factura_detalle{
 	border-collapse: collapse;
 }
 
 #factura_detalle thead th{
-	background: #979595;
-	color: #FFF;
-	padding: 3px;
-	font-size: 4pt;
+	color: rgb(0, 0, 0);
+	padding: 1px;
+	font-size: 5pt !important;
 	font-family: 'Courier New', Courier, monospace;
 	
 }
 #factura_detalle td{
-	font-size: 4pt;
+	font-size: 5pt !important;
 	font-family: 'Courier New', Courier, monospace;
 }
 #detalle_productos tr:nth-child(even) {
@@ -120,7 +117,7 @@ p, label, span, table{
 	font-weight: bold;
 }
 .nota{
-	font-size: 3pt;
+	font-size: 5pt !important;
 	color: #979595;
 
 }
@@ -129,8 +126,8 @@ p, label, span, table{
 	font-weight: bold;
 	font-style: italic;
 	text-align: center;
-	margin-top: 20px;
-	font-size: 5pt;
+	margin-top: 10px;
+	font-size: 6pt;
 	
 }
 .anulada{
@@ -142,17 +139,17 @@ p, label, span, table{
 	transform: translateX(-50%) translateY(-50%);
 }
 div img{
-	width: 40px;
-	height: 40px;
-	margin-left: 10px;
+	width: 20px;
+	height: 20px;
+
 }
-.ticket {
+/* .ticket {
 	width: 100% !important;
 }
 .ticket div{
 	width: 45% !important;
 	display: inline-block;
-}
+} */
 .ticket div label, .ticket div p{
 	
 	font-family: 'Courier New', Courier, monospace;
@@ -160,4 +157,7 @@ div img{
 }
 .ticket div label{
 	font-weight: bold;
+}
+th, td{
+	font-size: 9pt ;
 }

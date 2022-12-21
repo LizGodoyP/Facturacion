@@ -16,9 +16,6 @@
 			<div>
 				<p><label>N° de Pedido: </label> <?php echo $factura['nofactura']; ?></p>
 				<p><label>Fecha: </label> <?php echo $factura['fecha']; ?></p>
-			</div>
-			<div>
-				<p><label>Hora: </label> <?php echo $factura['hora']; ?></p>
 				<p><label>Nombre Cliente: </label> <?php echo $factura['nombre']; ?></p>
 			</div>
 
@@ -27,9 +24,9 @@
 			<thead>
 				<tr>
 					<th class="textcenter" width="10px">Cant.</th>
-					<th class="textcenter" width="40px">Descripción</th>
-					<th class="textcenter" width="40px">Precio Unitario.</th>
-					<th class="textcenter" width="40px">Categoria</th>
+					<th class="textleft" width="40px">Descripción</th>
+					<!-- <th class="textcenter" width="40px">Precio Unitario.</th>
+					<th class="textcenter" width="40px">Categoria</th> -->
 
 				</tr>
 			</thead>
@@ -43,9 +40,9 @@
 				?>
 							<tr>
 								<td class="textcenter"><?php echo $row['cantidad']; ?></td>
-								<td class="textcenter"><?php echo $row['descripcion']; ?></td>
-								<td class="textcenter"><?php echo $row['precio_venta']; ?></td>
-								<td class="textcenter"><?php echo $row['categoria']; ?></td>
+								<td class="textleft"><?php echo $row['descripcion']; ?></td>
+								<!-- <td class="textcenter"><?php echo $row['precio_venta']; ?></td>
+								<td class="textcenter"><?php echo $row['categoria']; ?></td> -->
 							</tr>
 				<?php
 						}

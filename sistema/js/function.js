@@ -504,6 +504,7 @@ $(document).ready(function () {
         var codCliente = $(this).attr('cl');
         var noFactura = $(this).attr('f');
         generarPDF(codCliente, noFactura);
+    
     });
 
     //Cambiar password 
