@@ -409,7 +409,7 @@ $(document).ready(function () {
 
         }
     });
-
+    http://localhost/Facturacion/sistema/factura/generaFactura.php?cl=1&f=30
     //Facturar venta
     $('#btn_facturar_venta').click(function (e) {
         e.preventDefault();
@@ -429,9 +429,13 @@ $(document).ready(function () {
                     if (response != 'error') {
                         var info = JSON.parse(response);
                         // console.log(info);
+                       
+                        generarpanesPDF(info.codcliente, info.nofactura);
+                        alert('generand0 panes');
                         generarPDF(info.codcliente, info.nofactura);
-
+                        alert('generand0 factura');
                         location.reload();
+                        
 
 
                     } else {
@@ -674,10 +678,25 @@ function generarPDF(cliente, factura) {
     //Calcular posición x,y para centrar a ventana
     var x = parseInt((window.screen.width / 2) - (ancho / 2));
     var y = parseInt((window.screen.height / 2) - (alto / 2));
+    
 
     $url = 'factura/generaFactura.php?cl=' + cliente + '&f=' + factura;
-    window.open($url, "Factura", "left=" + x + ",top=" + y + ",height=" + alto + ",width=" + ancho + ",scrollbars=si,location=no,resizable=si,menubar=no");
-    window.print();
+    window.open($url, "Factura", "left=" + x + ",top=" + y + ",height=" + alto + ",width=" + ancho + ",scrollbars=si,location=no,resizable=si,menubar=no, target=_blank");
+    
+
+}
+
+function generarpanesPDF(cliente, factura) {
+    var ancho = 500;
+    var alto = 400;
+    //Calcular posición x,y para centrar a ventana
+    var x = parseInt((window.screen.width / 2) - (ancho / 2));
+    var y = parseInt((window.screen.height / 2) - (alto / 2));
+    
+
+    $url = 'factura/generaPanes.php?cl=' + cliente + '&f=' + factura;
+    window.open($url, "Pan", "left=" + x + ",top=" + y + ",height=" + alto + ",width=" + ancho + ",scrollbars=si,location=no,resizable=si,menubar=no, target=_blank");
+    
 
 }
 
@@ -731,8 +750,10 @@ function del_product_detalle(correlativo) {
 function viewProcesar() {
     if ($('#detalle_venta tr').length > 0) {
         $('#btn_facturar_venta').show();
+       
     } else {
         $('#btn_facturar_venta').hide();
+       
     }
 }
 

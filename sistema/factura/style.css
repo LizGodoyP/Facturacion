@@ -8,21 +8,22 @@
 }
 p, label, span, table{
 	font-family: 'BrixSansRegular';
-	font-size: 5pt !important;
+	font-size: 7pt !important;
 }
 .h2{
 	font-family: 'BrixSansBlack';
-	font-size: 6pt;
+	font-size: 7pt !important;
 }
 .h3{
 	font-family: 'BrixSansBlack';
-	font-size: 4pt;
+	font-size: 7pt !important;
 	display: block;
-	background: #979595;
+	background: #000000;
 	color: #FFF;
 	text-align: center;
 	padding: 3px;
 	margin-bottom: 2px;
+	font-weight: bold;
 }
 #page_pdf{
 	width: 95%;
@@ -66,13 +67,13 @@ p, label, span, table{
 	width: auto !important;
 	
 	display: inline-block;	
-	font-size: 5pt !important; 
+	font-size: 7pt !important; 
 
 }
 .datos_cliente p{
 	display: inline-block;
 	justify-content: center !important;
-	font-size: 5pt !important;
+	font-size: 7pt !important;
 }
 
 .textright{
@@ -88,6 +89,7 @@ p, label, span, table{
 	border-radius: 5px;
 	overflow: hidden;
 	padding-bottom: 4px;
+	border: 1px solid #000000 !important;
 }
 .round p{
 	padding: 0 3px;
@@ -96,17 +98,19 @@ p, label, span, table{
 
 #factura_detalle{
 	border-collapse: collapse;
+
 }
 
 #factura_detalle thead th{
-	color: rgb(0, 0, 0);
+	color: rgb(252, 252, 252);
 	padding: 1px;
-	font-size: 5pt !important;
+	font-size: 10pt ;
 	font-family: 'Courier New', Courier, monospace;
+	background-color: black;
 	
 }
 #factura_detalle td{
-	font-size: 5pt !important;
+	font-size: 10pt ;
 	font-family: 'Courier New', Courier, monospace;
 }
 #detalle_productos tr:nth-child(even) {
@@ -117,8 +121,8 @@ p, label, span, table{
 	font-weight: bold;
 }
 .nota{
-	font-size: 5pt !important;
-	color: #979595;
+	font-size: 6pt !important;
+	color: #000000;
 
 }
 .label_gracias{
@@ -151,6 +155,7 @@ div img{
 	display: inline-block;
 } */
 .ticket div label, .ticket div p{
+	font-size: 9pt !important;
 	
 	font-family: 'Courier New', Courier, monospace;
 
@@ -158,6 +163,10 @@ div img{
 .ticket div label{
 	font-weight: bold;
 }
-th, td{
-	font-size: 9pt ;
+thead .cmanda{
+	background-color: black;
+	color: #fff !important;
+}
+.cmanda{
+	font-size: 10pt !important;
 }

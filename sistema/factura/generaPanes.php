@@ -61,7 +61,7 @@
 			$result_detalle = mysqli_num_rows($query_productos);
 
 			ob_start();
-		    include(dirname('__FILE__').'/factura.php');
+		    include(dirname('__FILE__').'/TicketPanes.php');
 		    $html = ob_get_clean();
 
 			// instantiate and use the dompdf class
@@ -69,7 +69,7 @@
 
 			$dompdf->loadHtml($html);
 			// (Optional) Setup the paper size and orientation
-			$dompdf->setPaper('A8', 'portrait');
+			$dompdf->setPaper('A9', 'portrait');
 			// Render the HTML as PDF
 			$dompdf->render();
 			// Output the generated PDF to Browser

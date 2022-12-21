@@ -23,8 +23,8 @@
 		<table id="factura_detalle">
 			<thead>
 				<tr>
-					<th class="textcenter" width="10px">Cant.</th>
-					<th class="textleft" width="40px">Descripción</th>
+					<th class="textcenter cmanda" width="10px">Cant.</th>
+					<th class="textleft cmanda" width="40px">Descripción</th>
 					<!-- <th class="textcenter" width="40px">Precio Unitario.</th>
 					<th class="textcenter" width="40px">Categoria</th> -->
 
@@ -36,16 +36,16 @@
 
 				if ($result_detalle > 0) {
 					while ($row = mysqli_fetch_assoc($query_productos)) {
-						if ($row['categoria'] == 'Bebidas') {
+						
 				?>
 							<tr>
-								<td class="textcenter"><?php echo $row['cantidad']; ?></td>
-								<td class="textleft"><?php echo $row['descripcion']; ?></td>
+								<td class="textcenter cmanda"><?php echo $row['cantidad']; ?></td>
+								<td class="textleft cmanda"><?php echo $row['descripcion']; ?></td>
 								<!-- <td class="textcenter"><?php echo $row['precio_venta']; ?></td>
 								<td class="textcenter"><?php echo $row['categoria']; ?></td> -->
 							</tr>
 				<?php
-						}
+						
 					}
 				}
 				?>

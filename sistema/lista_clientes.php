@@ -129,8 +129,11 @@ include "../conexion.php";
                 <?php
                 }
 
+                $margen = 3;
+                $margen_izquierdo = $pagina-$margen>0? $pagina-$margen:1;
+                $margen_derecha = $pagina+$margen<=$total_paginas? $pagina+$margen:$total_paginas;
 
-                for ($i = 1; $i <= $total_paginas; $i++) {
+                for ($i = $margen_izquierdo; $i <= $margen_derecha; $i++) {
 
                     if ($i == $pagina) {
                         echo '<li class="pageSelected">' . $i . '</li>';
