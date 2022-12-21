@@ -39,9 +39,9 @@ include "../conexion.php";
             <h5>Buscar por Fecha</h5>
             <form action="buscar_venta.php" method="get" class="form_search_date">
                 <label for="">De: </label>
-                <input type="date" name="decha_de" id="fecha_de" required>
+                <input type="date" name="fecha_de" id="fecha_de" required>
                 <label for="">A </label>
-                <input type="date" name="fehca_a" id="fecha_a" required>
+                <input type="date" name="fecha_a" id="fecha_a" required>
                 <button type="submit" class="btn_view"><i class="fa fa-search"></i></button>
             </form>
         </div>

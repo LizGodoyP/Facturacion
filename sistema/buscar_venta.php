@@ -5,26 +5,17 @@ include "../conexion.php";
 $busqueda = '';
 $fecha_de = '';
 $fecha_a = '';
+$where = '';
 
 if (isset($_REQUEST['busqueda']) && $_REQUEST['busqueda'] == '') {
     header("Location: ventas.php");
 }
-
 if (isset($_REQUEST['fecha_de']) || isset($_REQUEST['fecha_a'])) {
     if ($_REQUEST['fecha_de'] == '' || $_REQUEST['fecha_a'] == '') {
         header("Location: ventas.php");
     }
 }
 
-
-if (!empty($_REQUEST['busqueda'])) {
-    if (!is_numeric($_REQUEST['busqueda'])) {
-        header('Location: ventas.php');
-    }
-    $busqueda = strtolower($_REQUEST['busqueda']);
-    $where = "nofactura = $busqueda";
-    $buscar = "busqueda = $busqueda";
-}
 if (!empty($_REQUEST['fecha_de']) && !empty($_REQUEST['fecha_a'])) {
     $fecha_de = $_REQUEST['fecha_de'];
     $fecha_a = $_REQUEST['fecha_a'];
@@ -43,9 +34,20 @@ if (!empty($_REQUEST['fecha_de']) && !empty($_REQUEST['fecha_a'])) {
         $buscar = "fecha_de=$fecha_de&fecha_a=$fecha_a";
     }
 }
-// }else if(empty($_REQUEST['fecha_de']) && empty($_REQUEST['fecha_a'])){
+
+if (!empty($_REQUEST['busqueda'])) {
+    if (!is_numeric($_REQUEST['busqueda'])) {
+        header('Location: ventas.php');
+    }
+    $busqueda = strtolower($_REQUEST['busqueda']);
+    $where = "nofactura = $busqueda";
+    $buscar = "busqueda = $busqueda";
+}
+
+// else if(empty($_REQUEST['fecha_de']) && empty($_REQUEST['fecha_a'])){
 //     header('Location: ventas.php');
 // }
+
 
 ?>
 <!DOCTYPE html>
@@ -106,7 +108,8 @@ if (!empty($_REQUEST['fecha_de']) && !empty($_REQUEST['fecha_a'])) {
                 <?php
 
                 //paginator
-                $sql_register    = mysqli_query($conection, "SELECT count(*) AS total_registro FROM factura WHERE $where ");
+                $query = "SELECT count(*) AS total_registro FROM factura WHERE $where ";
+                $sql_register    = mysqli_query($conection, $query);
                 $result_register = mysqli_fetch_array($sql_register);
                 $total_registro  = $result_register['total_registro'];
 
